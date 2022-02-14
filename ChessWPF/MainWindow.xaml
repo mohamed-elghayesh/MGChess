@@ -1,0 +1,109 @@
+﻿<Window x:Class="ChessWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChessWPF"
+        mc:Ignorable="d"
+        Title="MGChess" Width="400" Height="450"
+        WindowStartupLocation="CenterScreen">
+    <Grid Loaded="Grid_Loaded" Name="ChessGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" Name="fileA"/>
+            <ColumnDefinition Width="*" Name="fileB"/>
+            <ColumnDefinition Width="*" Name="fileC"/>
+            <ColumnDefinition Width="*" Name="fileD"/>
+            <ColumnDefinition Width="*" Name="fileE"/>
+            <ColumnDefinition Width="*" Name="fileF"/>
+            <ColumnDefinition Width="*" Name="fileG"/>
+            <ColumnDefinition Width="*" Name="fileH"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" Name="rank8"/>
+            <RowDefinition Height="*" Name="rank7"/>
+            <RowDefinition Height="*" Name="rank6"/>
+            <RowDefinition Height="*" Name="rank5"/>
+            <RowDefinition Height="*" Name="rank4"/>
+            <RowDefinition Height="*" Name="rank3"/>
+            <RowDefinition Height="*" Name="rank2"/>
+            <RowDefinition Height="*" Name="rank1"/>
+            <RowDefinition Height="*" Name="status"/>
+
+        </Grid.RowDefinitions>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" Background="BurlyWood" Name="A8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Background="DarkGoldenrod" Name="B8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="2" Background="BurlyWood" Name="C8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="3" Background="DarkGoldenrod" Name="D8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="4" Background="BurlyWood" Name="E8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="5" Background="DarkGoldenrod" Name="F8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="6" Background="BurlyWood" Name="G8" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="7" Background="DarkGoldenrod" Name="H8" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="0" Background="DarkGoldenrod" Name="A7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Background="BurlyWood" Name="B7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Background="DarkGoldenrod" Name="C7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="3" Background="BurlyWood" Name="D7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="4" Background="DarkGoldenrod" Name="E7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="5" Background="BurlyWood" Name="F7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="6" Background="DarkGoldenrod" Name="G7" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="7" Background="BurlyWood" Name="H7" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="0" Background="BurlyWood" Name="A6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1" Background="DarkGoldenrod" Name="B6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="2" Background="BurlyWood" Name="C6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="3" Background="DarkGoldenrod" Name="D6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="4" Background="BurlyWood" Name="E6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="5" Background="DarkGoldenrod" Name="F6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="6" Background="BurlyWood" Name="G6" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="7" Background="DarkGoldenrod" Name="H6" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="0" Background="DarkGoldenrod" Name="A5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="1" Background="BurlyWood" Name="B5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="2" Background="DarkGoldenrod" Name="C5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="3" Background="BurlyWood" Name="D5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="4" Background="DarkGoldenrod" Name="E5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="5" Background="BurlyWood" Name="F5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="6" Background="DarkGoldenrod" Name="G5" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="7" Background="BurlyWood" Name="H5" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="0" Background="BurlyWood" Name="A4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Background="DarkGoldenrod" Name="B4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="2" Background="BurlyWood" Name="C4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="3" Background="DarkGoldenrod" Name="D4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="4" Background="BurlyWood" Name="E4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="5" Background="DarkGoldenrod" Name="F4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="6" Background="BurlyWood" Name="G4" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="7" Background="DarkGoldenrod" Name="H4" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="0" Background="DarkGoldenrod" Name="A3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Background="BurlyWood" Name="B3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="2" Background="DarkGoldenrod" Name="C3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="3" Background="BurlyWood" Name="D3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="4" Background="DarkGoldenrod" Name="E3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="5" Background="BurlyWood" Name="F3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="6" Background="DarkGoldenrod" Name="G3" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="7" Background="BurlyWood" Name="H3" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="0" Background="BurlyWood" Name="A2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="1" Background="DarkGoldenrod" Name="B2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="2" Background="BurlyWood" Name="C2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="3" Background="DarkGoldenrod" Name="D2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="4" Background="BurlyWood" Name="E2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="5" Background="DarkGoldenrod" Name="F2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="6" Background="BurlyWood" Name="G2" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="7" Background="DarkGoldenrod" Name="H2" MouseDown="SquareMouseClick"/>
+
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="0" Background="DarkGoldenrod" Name="A1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="1" Background="BurlyWood" Name="B1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="2" Background="DarkGoldenrod" Name="C1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="3" Background="BurlyWood" Name="D1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="4" Background="DarkGoldenrod" Name="E1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="5" Background="BurlyWood" Name="F1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="6" Background="DarkGoldenrod" Name="G1" MouseDown="SquareMouseClick"/>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="7" Background="BurlyWood" Name="H1" MouseDown="SquareMouseClick"/>
+
+        <TextBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="6" Name="lblStatus" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <Button Grid.Row="8" Grid.Column="6"  Grid.ColumnSpan="2" Name="btnUndo" Content="Undo" Click="btnUndoClick" Margin="10"/>
+    </Grid>
+</Window>
