@@ -1,0 +1,7 @@
+﻿Runner Program
+	^
+	|
+ClassLibrary
+
+Runner: accepts user input, and reflects the latest board state
+Library: Classes + Logic
