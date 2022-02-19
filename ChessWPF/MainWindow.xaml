@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessWPF"
         mc:Ignorable="d"
-        Title="MGChess" Width="400" Height="450"
+        Title="MGChess" Width="450" Height="500"
         WindowStartupLocation="CenterScreen">
+
     <Grid Loaded="Grid_Loaded" Name="ChessGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" Name="fileA"/>
@@ -30,6 +31,18 @@
             <RowDefinition Height="*" Name="status"/>
 
         </Grid.RowDefinitions>
+
+        <Popup Name="LightPopup">
+            <StackPanel Orientation="Horizontal" Name="LightPanel" PreviewMouseDown="StackPanelMouseDown">
+                
+            </StackPanel>
+        </Popup>
+
+        <Popup Name="DarkPopup">
+            <StackPanel Orientation="Horizontal" Name="DarkPanel" PreviewMouseDown="StackPanelMouseDown">
+
+            </StackPanel>
+        </Popup>
 
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" Background="BurlyWood" Name="A8" MouseDown="SquareMouseClick"/>
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Background="DarkGoldenrod" Name="B8" MouseDown="SquareMouseClick"/>

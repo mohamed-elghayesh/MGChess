@@ -5,6 +5,7 @@ namespace MGChessLib.Pieces
 {
     public class Rook : Piece
     {
+        public bool IsFirstMove = true;
         private List<Square> validMoves = new List<Square>();
 
         public Rook(string color) : base(color)

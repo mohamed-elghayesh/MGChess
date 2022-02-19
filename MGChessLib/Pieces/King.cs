@@ -5,6 +5,7 @@ namespace MGChessLib.Pieces
 {
     public class King : Piece
     {
+        public bool IsFirstMove = true;
         List<Square> validMoves = new List<Square>();
 
         public King(string color) : base(color)
@@ -27,7 +28,17 @@ namespace MGChessLib.Pieces
 
             validMoves.RemoveAll(x => Math.Abs(x.GetRankIndex(x.GetRank()) - currSquare.GetRankIndex(currSquare.GetRank())) > 1 ||
                                       Math.Abs(x.GetFileIndex(x.GetFile()) - currSquare.GetFileIndex(currSquare.GetFile())) > 1);
+            
+            if (IsFirstMove) { validMoves.AddRange(GetCastleSquares(validMoves, board)); }
+            
             return validMoves;
+        }
+
+        private List<Square> GetCastleSquares(List<Square> moves, Board.Board board)
+        {
+            if (!Square.GetOffsetedSquare(currSquare, 2, 0, board).IsOccupied()) { moves.Add(Square.GetOffsetedSquare(currSquare, 2, 0, board)); }
+            if (!Square.GetOffsetedSquare(currSquare, -2, 0, board).IsOccupied()) { moves.Add(Square.GetOffsetedSquare(currSquare, -2, 0, board)); }
+            return moves;
         }
 
         public override List<Square> RemoveBlockedSquares(List<Square> validMoves, Board.Board board)

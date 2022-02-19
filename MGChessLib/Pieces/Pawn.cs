@@ -5,7 +5,7 @@ namespace MGChessLib.Pieces
 {
     public class Pawn : Piece
     {
-        private bool isFirstMove = true;
+        public bool IsFirstMove = true;
         private List<Square> validMoves = new List<Square>();
 
         public Pawn(string color) : base(color)
@@ -24,7 +24,7 @@ namespace MGChessLib.Pieces
             if (color == Color.Light.ToString())
             {
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, 0, 1, board));
-                if (isFirstMove) { validMoves.Add(Square.GetOffsetedSquare(GetCurrSquare(), 0, 2, board)); }
+                if (IsFirstMove) { validMoves.Add(Square.GetOffsetedSquare(GetCurrSquare(), 0, 2, board)); }
                 // capture squares
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, 1, 1, board));
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, -1, 1, board));
@@ -34,7 +34,7 @@ namespace MGChessLib.Pieces
             else if (color == Color.Dark.ToString()) // color is dark
             {
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, 0, -1, board));
-                if (isFirstMove) { validMoves.Add(Square.GetOffsetedSquare(GetCurrSquare(), 0, -2, board)); }
+                if (IsFirstMove) { validMoves.Add(Square.GetOffsetedSquare(GetCurrSquare(), 0, -2, board)); }
                 // capture squares
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, 1, -1, board));
                 validMoves.Add(Square.GetOffsetedSquare(currSquare, -1, -1, board));
@@ -67,11 +67,6 @@ namespace MGChessLib.Pieces
             else { validMoves.Remove(capture2); }
 
             return validMoves;
-        }
-
-        public bool IsFirstMove()
-        {
-            return isFirstMove;
         }
     }
 }

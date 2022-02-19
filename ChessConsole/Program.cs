@@ -14,7 +14,7 @@ Movement move = new Movement(sourceSq, targetSq, board);
 
 if (move.IsValidMove(board, out string message))
 {
-    board.SetMove(move);
+    board.SetMove(move, null);
     Console.WriteLine(message);
 }
 else { Console.WriteLine(message); }
@@ -30,7 +30,7 @@ Movement move1 = new Movement(sourceSq1, targetSq1, board);
 
 if (move1.IsValidMove(board, out string message1))
 {
-    board.SetMove(move1);
+    board.SetMove(move1, null);
     Console.WriteLine(message1);
 }
 else { Console.WriteLine(message1); }
