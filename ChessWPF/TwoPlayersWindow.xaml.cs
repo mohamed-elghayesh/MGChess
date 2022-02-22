@@ -20,52 +20,19 @@ namespace ChessWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TwoPlayersWindow : Window
     {
         #region Variables
-        bool whiteTurn = true;
         SolidColorBrush lightSqColor = Brushes.BurlyWood;
         SolidColorBrush darkSqColor = Brushes.DarkGoldenrod;
 
         Board board = new Board();
         List<Label> moveSplits = new List<Label>(2);
 
-        readonly Rook wR1 = new Rook(MGChessLib.Common.Color.Light.ToString());
-        readonly Knight wN1 = new Knight(MGChessLib.Common.Color.Light.ToString());
-        readonly Bishop wB1 = new Bishop(MGChessLib.Common.Color.Light.ToString());
-        readonly Queen wQ = new Queen(MGChessLib.Common.Color.Light.ToString());
-        readonly King wK = new King(MGChessLib.Common.Color.Light.ToString());
-        readonly Rook wR2 = new Rook(MGChessLib.Common.Color.Light.ToString());
-        readonly Knight wN2 = new Knight(MGChessLib.Common.Color.Light.ToString());
-        readonly Bishop wB2 = new Bishop(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP1 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP2 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP3 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP4 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP5 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP6 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP7 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Pawn wP8 = new Pawn(MGChessLib.Common.Color.Light.ToString());
-        readonly Rook bR1 = new Rook(MGChessLib.Common.Color.Dark.ToString());
-        readonly Knight bN1 = new Knight(MGChessLib.Common.Color.Dark.ToString());
-        readonly Bishop bB1 = new Bishop(MGChessLib.Common.Color.Dark.ToString());
-        readonly Queen bQ = new Queen(MGChessLib.Common.Color.Dark.ToString());
-        readonly King bK = new King(MGChessLib.Common.Color.Dark.ToString());
-        readonly Rook bR2 = new Rook(MGChessLib.Common.Color.Dark.ToString());
-        readonly Knight bN2 = new Knight(MGChessLib.Common.Color.Dark.ToString());
-        readonly Bishop bB2 = new Bishop(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP1 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP2 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP3 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP4 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP5 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP6 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP7 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
-        readonly Pawn bP8 = new Pawn(MGChessLib.Common.Color.Dark.ToString());
 
         #endregion
 
-        public MainWindow()
+        public TwoPlayersWindow()
         {
             InitializeComponent();
         }
@@ -126,8 +93,8 @@ namespace ChessWPF
                     string rank = source.GetRank();
                     if (target.GetFile() == "G") { ChessGrid.Children.OfType<Label>().First(x => x.Name == "H" + rank).Content = null; }
                     else if(target.GetFile() == "C") { ChessGrid.Children.OfType<Label>().First(x => x.Name == "A" + rank).Content = null; }
+                    board.SetMove(move, null);
                 }
-
                 else if (move.IsPromotion(move, board)) // initiate promotion sequence
                 {
                     Pawn promotionPawn = (Pawn)move.GetPieceToMove();
@@ -138,11 +105,16 @@ namespace ChessWPF
                         lightPopup.AllowsTransparency = true;
                         StackPanel panel = LightPanel;
                         panel.Background = lightSqColor;
-                        
+
+                        Queen wQ = new Queen(MGChessLib.Common.Color.Light.ToString());
+                        Rook wR = new Rook(MGChessLib.Common.Color.Light.ToString());
+                        Bishop wB = new Bishop(MGChessLib.Common.Color.Light.ToString());
+                        Knight wN = new Knight(MGChessLib.Common.Color.Light.ToString());
+
                         Image queenImage = new Image() { Source = new BitmapImage(wQ.GetImageSource()), Name = "queen" };
-                        Image rookImage = new Image() { Source = new BitmapImage(wR1.GetImageSource()), Name = "rook" };
-                        Image bishopImage = new Image() { Source = new BitmapImage(wB1.GetImageSource()), Name = "bishop" };
-                        Image knightImage = new Image() { Source = new BitmapImage(wN1.GetImageSource()), Name = "knight" };
+                        Image rookImage = new Image() { Source = new BitmapImage(wR.GetImageSource()), Name = "rook" };
+                        Image bishopImage = new Image() { Source = new BitmapImage(wB.GetImageSource()), Name = "bishop" };
+                        Image knightImage = new Image() { Source = new BitmapImage(wN.GetImageSource()), Name = "knight" };
 
                         panel.MouseDown += (s, e) => StackPanelMouseDown(s, e, move); // add the instance to event handler
 
@@ -155,9 +127,6 @@ namespace ChessWPF
                         lightPopup.Width = 150;
                         lightPopup.Height = 40;
                         lightPopup.PlacementTarget = ChessGrid.Children.OfType<Label>().First(x => x.Name == move.GetTargetSquare().GetName());
-                        //lightPopup.PlacementRectangle = new Rect(0, 0, 120, 30);
-                        //lightPopup.AllowsTransparency = true;
-                        //lightPopup.PopupAnimation = PopupAnimation.Fade;
                         lightPopup.IsOpen = true;
 
                     }
@@ -168,10 +137,15 @@ namespace ChessWPF
                         StackPanel panel = DarkPanel;
                         panel.Background = lightSqColor;
 
+                        Queen bQ = new Queen(MGChessLib.Common.Color.Dark.ToString());
+                        Rook bR = new Rook(MGChessLib.Common.Color.Dark.ToString());
+                        Bishop bB = new Bishop(MGChessLib.Common.Color.Dark.ToString());
+                        Knight bN = new Knight(MGChessLib.Common.Color.Dark.ToString());
+
                         Image queenImage = new Image() { Source = new BitmapImage(bQ.GetImageSource()), Name = "queen" };
-                        Image rookImage = new Image() { Source = new BitmapImage(bR1.GetImageSource()), Name = "rook" };
-                        Image bishopImage = new Image() { Source = new BitmapImage(bB1.GetImageSource()), Name = "bishop" };
-                        Image knightImage = new Image() { Source = new BitmapImage(bN1.GetImageSource()), Name = "knight" };
+                        Image rookImage = new Image() { Source = new BitmapImage(bR.GetImageSource()), Name = "rook" };
+                        Image bishopImage = new Image() { Source = new BitmapImage(bB.GetImageSource()), Name = "bishop" };
+                        Image knightImage = new Image() { Source = new BitmapImage(bN.GetImageSource()), Name = "knight" };
 
                         panel.MouseDown += (s, e) => StackPanelMouseDown(s, e, move); // overload event handler
 
@@ -198,8 +172,6 @@ namespace ChessWPF
             }
             else { lblStatus.Text = message; }
         }
-
-        
 
         private void RemoveHighlight()
         {
@@ -262,6 +234,7 @@ namespace ChessWPF
 
             board.Promote(move, piece);
 
+            ChessGrid.Children.OfType<Label>().First(x => x.Name == move.GetSourceSquare().GetName()).Content = null;
             DarkPopup.IsOpen = false;
             LightPopup.IsOpen = false;
 
@@ -271,6 +244,12 @@ namespace ChessWPF
         private void btnUndoClick(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, EventArgs e)
+        {
+            FirstWindow firstWindow = new FirstWindow();
+            firstWindow.Show();
         }
     }
 }
