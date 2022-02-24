@@ -33,17 +33,24 @@
 
         </Grid.RowDefinitions>
 
-        <Popup Name="LightPopup">
-            <StackPanel Orientation="Horizontal" Name="LightPanel" PreviewMouseDown="StackPanelMouseDown">
-                
+        <Popup Name="LightPopup" AllowsTransparency="True">
+            <StackPanel Height="50" Width="200" Orientation="Horizontal" Name="LightPanel" PreviewMouseDown="StackPanelMouseDown" Background="Goldenrod">
+                <Image Source="/Images/wQ.png" Name="queen1"/>
+                <Image Source="/Images/wR.png" Name="rook1"/>
+                <Image Source="/Images/wB.png" Name="bishop1"/>
+                <Image Source="/Images/wN.png" Name="knight1"/>
             </StackPanel>
         </Popup>
 
-        <Popup Name="DarkPopup">
-            <StackPanel Orientation="Horizontal" Name="DarkPanel" PreviewMouseDown="StackPanelMouseDown">
-
+        <Popup Name="DarkPopup" AllowsTransparency="True">
+            <StackPanel Height="60" Width="240" Orientation="Horizontal" Name="DarkPanel" PreviewMouseDown="StackPanelMouseDown" Background="Goldenrod">
+                <Image Source="/Images/bQ.png" Name="queen2"/>
+                <Image Source="/Images/bR.png" Name="rook2"/>
+                <Image Source="/Images/bB.png" Name="bishop2"/>
+                <Image Source="/Images/bN.png" Name="knight2"/>
             </StackPanel>
         </Popup>
+
 
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" Background="BurlyWood" Name="A8" MouseDown="SquareMouseClick"/>
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Background="DarkGoldenrod" Name="B8" MouseDown="SquareMouseClick"/>

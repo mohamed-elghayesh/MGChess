@@ -1,6 +1,7 @@
 ﻿using MGChessLib.Squares;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace ChessWPF
@@ -16,7 +17,5 @@ namespace ChessWPF
         {
             return $"{square.Name[1]}";
         }
-
-        
     }
 }

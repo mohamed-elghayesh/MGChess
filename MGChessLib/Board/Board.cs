@@ -105,40 +105,26 @@ namespace MGChessLib.Board
         public Board SetMove(Movement move, Piece promotionPiece)
         {
             Square source = move.GetSourceSquare();
-            Square target = move.GetTargetSquare();
             Piece piece = this.GetSquare(source.GetName()).GetCurrPiece();
             string pieceRank = piece.GetCurrSquare().GetRank();
 
-            if (move.IsCastleMove(move, this)) 
+            if (move.IsCastleMove(move, this))
             {
                 // king's move
-                this.GetSquare(source.GetName()).SetOccupied(false);
-                this.GetSquare(source.GetName()).SetCurrPiece(null);
-                this.GetSquare(target.GetName()).SetOccupied(true);
-                this.GetSquare(target.GetName()).SetCurrPiece(piece);
-                piece.SetCurrSquare(target);
+                MakeMove(move);
+                move.CounterReset(); // two moves having the same counter
                 // rook's move
                 if (piece.GetCurrSquare().GetFile() == "G")
                 {
-                    Rook rook = (Rook)GetSquare("H" + pieceRank).GetCurrPiece();
-                    GetSquare("F" + pieceRank).SetCurrPiece(rook);
-                    GetSquare("F" + pieceRank).SetOccupied(true);
-                    GetSquare("H" + pieceRank).SetCurrPiece(null);
-                    GetSquare("H" + pieceRank).SetOccupied(false);
-                    rook.SetCurrSquare(GetSquare("F" + pieceRank));
+                    Movement rookMove = new Movement(GetSquare("H" + pieceRank), GetSquare("F" + pieceRank), this); 
+                    MakeMove(rookMove);
                 }
-
                 if (piece.GetCurrSquare().GetFile() == "C")
                 {
-                    Rook rook = (Rook)GetSquare("A" + pieceRank).GetCurrPiece();
-                    GetSquare("D" + pieceRank).SetCurrPiece(rook);
-                    GetSquare("D" + pieceRank).SetOccupied(true);
-                    GetSquare("A" + pieceRank).SetCurrPiece(null);
-                    GetSquare("A" + pieceRank).SetOccupied(false);
-                    rook.SetCurrSquare(GetSquare("D" + pieceRank));
+                    Movement rookMove = new Movement(GetSquare("A" + pieceRank), GetSquare("D" + pieceRank), this);
+                    MakeMove(rookMove);
                 }
-
-                return this; 
+                return this;
             }
 
             // source piece is rook: falsify rook's first move
@@ -148,13 +134,22 @@ namespace MGChessLib.Board
             // source piece is pawn: falsify pawn's first move
             if ((piece.GetType() == typeof(Pawn)) && ((Pawn)piece).IsFirstMove) { ((Pawn)piece).IsFirstMove = false; }
 
+            MakeMove(move);
+
+            return this;
+        }
+
+        private void MakeMove(Movement move)
+        {
+            Square source = move.GetSourceSquare();
+            Square target = move.GetTargetSquare();
+            Piece piece = this.GetSquare(source.GetName()).GetCurrPiece();
+
             this.GetSquare(source.GetName()).SetOccupied(false);
             this.GetSquare(source.GetName()).SetCurrPiece(null);
             this.GetSquare(target.GetName()).SetOccupied(true);
             this.GetSquare(target.GetName()).SetCurrPiece(piece);
             piece.SetCurrSquare(target);
-
-            return this;
         }
 
         public void Promote(Movement move, Piece promotionPiece)

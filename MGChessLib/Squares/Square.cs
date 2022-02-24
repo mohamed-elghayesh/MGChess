@@ -11,6 +11,7 @@ namespace MGChessLib.Squares
         private readonly string file;
         private readonly string rank;
         private readonly string name;
+        public int Score = 0;
 
         private Piece currPiece;
         private readonly string squareColor; // color depends on location
@@ -66,9 +67,11 @@ namespace MGChessLib.Squares
         public override bool Equals(object? obj)
         {
             if (this == obj) return true;
-            if (obj.GetType() == typeof(Square)) return false;
-            Square square = (Square)obj;
-            return file.Equals(square.file) & rank.Equals(square.rank);
+            if (obj.GetType() != typeof(Square)) return false;
+            
+            var item = obj as Square;
+            if (item == null) { return false; }
+            return file.Equals(item.file) && rank.Equals(item.rank);
         }
 
         public override int GetHashCode()

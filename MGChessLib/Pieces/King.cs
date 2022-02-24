@@ -6,6 +6,7 @@ namespace MGChessLib.Pieces
     public class King : Piece
     {
         public bool IsFirstMove = true;
+        public bool IsUnderCheck = false;
         List<Square> validMoves = new List<Square>();
 
         public King(string color) : base(color)

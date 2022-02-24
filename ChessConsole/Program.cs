@@ -7,34 +7,27 @@ using MGChessLib.Common;
 Board board = new Board();
 board.LoadPieces();
 
-// validate the move before moving 
-Square sourceSq = board.GetSquare("E", "2");
-Square targetSq = board.GetSquare("E", "4");
-Movement move = new Movement(sourceSq, targetSq, board);
+// light colored piece
+Movement move1 = new Movement(board.GetSquare("E", "2"), board.GetSquare("E", "4"), board);
+board.SetMove(move1, null);
+// dark colored piece
+Movement move2 = new Movement(board.GetSquare("D", "7"), board.GetSquare("D", "6"), board);
+board.SetMove(move2, null);
 
-if (move.IsValidMove(board, out string message))
-{
-    board.SetMove(move, null);
-    Console.WriteLine(message);
-}
-else { Console.WriteLine(message); }
+Movement move3 = new Movement(board.GetSquare("F", "1"), board.GetSquare("C", "4"), board);
+board.SetMove(move3, null);
 
+Movement move4 = new Movement(board.GetSquare("B", "8"), board.GetSquare("C", "6"), board);
+board.SetMove(move4, null);
 
-//=============================================================//
-// Now Pawns can move to capture square if it is empty, revise //
-//=============================================================//
-Square sourceSq1 = board.GetSquare("D", "7");
-Square targetSq1 = board.GetSquare("D", "6");
+Movement move5 = new Movement(board.GetSquare("G", "1"), board.GetSquare("F", "3"), board);
+board.SetMove(move5, null);
 
-Movement move1 = new Movement(sourceSq1, targetSq1, board);
+Movement move6 = new Movement(board.GetSquare("C", "8"), board.GetSquare("F", "5"), board);
+board.SetMove(move6, null);
 
-if (move1.IsValidMove(board, out string message1))
-{
-    board.SetMove(move1, null);
-    Console.WriteLine(message1);
-}
-else { Console.WriteLine(message1); }
-
+Movement move7 = new Movement(board.GetSquare("E", "1"), board.GetSquare("G", "1"), board);
+board.SetMove(move7, null);
 
 board.PrintBoard();
 

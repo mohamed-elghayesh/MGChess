@@ -27,23 +27,23 @@ namespace MGChessLib.Common
         public Square GetTargetSquare() { return targetSquare; }
         public void SetTargetSquare(Square targetSq) { targetSquare = targetSq; }
 
-        public Piece GetPieceToMove() { return sourcePiece; }
+        public Piece GetPiece() { return sourcePiece; }
 
         // validate that source square piece moves contains the target square
         public bool IsValidMove(Board.Board board, out string message)
         {
-            if (!sourceSquare.IsOccupied()) { Reset(); message = "Empty square. Please select a piece to move."; return false; }
-            if (targetSquare.IsOccupied()) { if (sourcePiece.GetColor() == targetPiece.GetColor()) { Reset(); message = "Select a piece to move."; return false; } }
-            if (sourceSquare == targetSquare) { Reset(); message = "Can not move to the same square."; return false; }
-            if (counter % 2 == 1 & sourcePiece.GetColor() == Color.Dark.ToString()) { Reset(); message = "Light colored pieces turn."; return false; }
-            if (counter % 2 == 0 & sourcePiece.GetColor() == Color.Light.ToString()) { Reset(); message = "Dark colored pieces turn."; return false; }
-            if (!sourcePiece.GetValidMoves(board).Contains(targetSquare)) { Reset(); message = $"{targetSquare.GetName()} is not a valid move for a {sourcePiece.GetName()} on {sourceSquare}."; return false; }
+            if (!sourceSquare.IsOccupied()) { CounterReset(); message = "Empty square. Please select a piece to move."; return false; }
+            if (targetSquare.IsOccupied()) { if (sourcePiece.GetColor() == targetPiece.GetColor()) { CounterReset(); message = "Select a piece to move."; return false; } }
+            if (sourceSquare == targetSquare) { CounterReset(); message = "Can not move to the same square."; return false; }
+            if (counter % 2 == 1 & sourcePiece.GetColor() == Color.Dark.ToString()) { CounterReset(); message = "Light colored pieces turn."; return false; }
+            if (counter % 2 == 0 & sourcePiece.GetColor() == Color.Light.ToString()) { CounterReset(); message = "Dark colored pieces turn."; return false; }
+            if (!sourcePiece.GetValidMoves(board).Contains(targetSquare)) { CounterReset(); message = $"{targetSquare.GetName()} is not a valid move for a {sourcePiece.GetName()} on {sourceSquare}."; return false; }
 
             message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
             return true;
         }
 
-        private void Reset()
+        public void CounterReset()
         {
             counter--;
         }
@@ -110,6 +110,18 @@ namespace MGChessLib.Common
 
             return true;
         }
+        // for this to work, the total fire power of a squad should be added to a list or a dictionary (square, int that reflects score)
+        // score: how many attackers and how many defenders score (10, 30, 50, 90, 900) score model
+        // if (the opposite king was occupying a square under direct fire, it must move, or be shielded by another piece, or game ends
+        // square score should be a property in a square.
+        public bool IsCheck(Movement move, Board.Board board)
+        {
+            Piece piece = move.GetPiece();
+            List<Square> squares = piece.GetValidMoves(board);
+            Square? checkSq = squares.Find(sq => (sq.GetCurrPiece().GetType() == typeof(King) && (sq.GetCurrPiece().GetColor() != piece.GetColor()) ));
 
+            if(checkSq != null) { ((King)checkSq.GetCurrPiece()).IsUnderCheck = true; return true; }
+            return false;
+        }
     }
 }
