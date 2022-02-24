@@ -82,7 +82,7 @@ namespace ChessWPF
             Movement move = new Movement(source, target, board);
             if (move.IsValidMove(board, out message))
             {
-                if (move.IsPromotion(move, board)) // initiate promotion sequence
+                if (move.IsPromotion(move, board, out message)) // initiate promotion sequence
                 {
                     Pawn promotionPawn = (Pawn)move.GetPiece();
                     if (promotionPawn.GetColor() == MGChessLib.Common.Color.Light.ToString())
@@ -102,6 +102,7 @@ namespace ChessWPF
                         darkPopup.IsOpen = true;
                     }
                 }
+                else if(move.IsCastleMove(move, board, out message)) { lblStatus.Text = message; }
                 board.SetMove(move, null);
                 lblStatus.Text = message;
                 ClearBoard();
@@ -160,7 +161,7 @@ namespace ChessWPF
 
         private void StackPanelMouseDown(object sender, MouseButtonEventArgs e)
         {
-            lblStatus.Text = ((Image)e.OriginalSource).Name;
+            //lblStatus.Text = ((Image)e.OriginalSource).Name;
         }
 
         private void StackPanelMouseDown(object s, MouseButtonEventArgs e, Movement move)

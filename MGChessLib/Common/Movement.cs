@@ -48,7 +48,7 @@ namespace MGChessLib.Common
             counter--;
         }
 
-        public bool IsCastleMove(Movement move, Board.Board board)
+        public bool IsCastleMove(Movement move, Board.Board board, out string message)
         {
             Square source = move.GetSourceSquare();
             Square target = move.GetTargetSquare();
@@ -56,15 +56,19 @@ namespace MGChessLib.Common
 
             // king's conditions
             bool pieceIsKing = (piece.GetType() == typeof(King)) ? true : false;
-            if (!pieceIsKing) { return false; }
+            if (!pieceIsKing) 
+            { 
+                message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
+                return false; 
+            }
             King king = (King)piece;
-            if (!king.IsFirstMove) { return false; }
+            if (!king.IsFirstMove) { message = "The King has already moves"; return false; }
 
             // target square conditions
             bool kingSideCastle;
             if (target.GetFile() == "C") { kingSideCastle = false; }
             else if (target.GetFile() == "G") { kingSideCastle = true; }
-            else { return false; } // cancel if target file is neither C nor G
+            else { message = "The king cannot castle in this square."; return false; } // cancel if target file is neither C nor G
 
             // rook's conditions
             string rank = king.GetCurrSquare().GetRank();
@@ -73,41 +77,62 @@ namespace MGChessLib.Common
 
             if (kingSideCastle)
             {
-                if (!kingRookSq.IsOccupied()) { return false; } // cancel if rook's square is empty (needed for next condition)
-                if (kingRookSq.GetCurrPiece().GetType() != typeof(Rook)) { return false; } // cancel if the square doesn't hold a rook (needed for next condition) 
-                if (!((Rook)kingRookSq.GetCurrPiece()).IsFirstMove) { return false; } // cancel if the rook has moved before
+                if (!kingRookSq.IsOccupied()) { message = "Cannot castle, rook's square is empty!"; return false; } // cancel if rook's square is empty (needed for next condition)
+                if (kingRookSq.GetCurrPiece().GetType() != typeof(Rook)) { message = "Cannot castle, the piece on target square is not a rook!"; return false; } // cancel if the square doesn't hold a rook (needed for next condition) 
+                if (!((Rook)kingRookSq.GetCurrPiece()).IsFirstMove) { message = "Cannot castle, the rook has moved!"; return false; } // cancel if the rook has moved before
                 // both F and G files must be empty for king-side castling
-                if (board.GetSquare("F" + rank).IsOccupied()) { return false; }
-                if (board.GetSquare("G" + rank).IsOccupied()) { return false; }
+                if (board.GetSquare("F" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the F file."; return false; }
+                if (board.GetSquare("G" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the G file."; return false; }
+                // both F and G must not be hit by any of opponent's pieces
+                // cannot move the {} square.IsHit()
             }
             else
             {
-                if (!queenRookSq.IsOccupied()) { return false; }
-                if (queenRookSq.GetCurrPiece().GetType() != typeof(Rook)) { return false; }
-                if (!((Rook)queenRookSq.GetCurrPiece()).IsFirstMove) { return false; }
+                if (!queenRookSq.IsOccupied()) { message = "Cannot castle, rook's square is empty!"; return false; }
+                if (queenRookSq.GetCurrPiece().GetType() != typeof(Rook)) { message = "Cannot castle, the piece on target square is not a rook!"; return false; }
+                if (!((Rook)queenRookSq.GetCurrPiece()).IsFirstMove) { message = "Cannot castle, the rook has moved!"; return false; }
                 // files B, C, and D must be empty for queen-side castle
-                if (board.GetSquare("B" + rank).IsOccupied()) { return false; }
-                if (board.GetSquare("C" + rank).IsOccupied()) { return false; }
-                if (board.GetSquare("D" + rank).IsOccupied()) { return false; }
+                if (board.GetSquare("B" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the B file."; return false; }
+                if (board.GetSquare("C" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the C file."; return false; }
+                if (board.GetSquare("D" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the D file."; return false; }
             }
-
             // now every castle condition is met
+            message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} castled to {targetSquare.GetName()}";
             return true;
         }
 
-        public bool IsPromotion(Movement move, Board.Board board)
+        public bool IsPromotion(Movement move, Board.Board board, out string message)
         {
             Square source = move.GetSourceSquare();
             Square target = move.GetTargetSquare();
             Piece piece = board.GetSquare(source.GetName()).GetCurrPiece();
 
             bool pieceIsPawn = (piece.GetType() == typeof(Pawn)) ? true : false;
-            if (!pieceIsPawn) { return false; }
+            if (!pieceIsPawn) 
+            { 
+                message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
+                return false; 
+            }
+            
             Pawn pawn = (Pawn)piece;
+            if (pawn.GetColor() == Color.Light.ToString()) 
+            { 
+                if (target.GetRank() != "8") 
+                { 
+                    message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
+                    return false; 
+                } 
+            }
+            if (pawn.GetColor() == Color.Dark.ToString()) 
+            { 
+                if (target.GetRank() != "1") 
+                { 
+                    message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
+                    return false; 
+                } 
+            }
 
-            if (pawn.GetColor() == Color.Light.ToString()) { if (target.GetRank() != "8") { return false; } }
-            if (pawn.GetColor() == Color.Dark.ToString()) { if (target.GetRank() != "1") { return false; } }
-
+            message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} promoted to a {targetSquare.GetCurrPiece()}";
             return true;
         }
         // for this to work, the total fire power of a squad should be added to a list or a dictionary (square, int that reflects score)

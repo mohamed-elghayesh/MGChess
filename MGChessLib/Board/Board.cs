@@ -107,19 +107,20 @@ namespace MGChessLib.Board
             Square source = move.GetSourceSquare();
             Piece piece = this.GetSquare(source.GetName()).GetCurrPiece();
             string pieceRank = piece.GetCurrSquare().GetRank();
+            string message = "";
 
-            if (move.IsCastleMove(move, this))
+            if (move.IsCastleMove(move, this, out message))
             {
                 // king's move
                 MakeMove(move);
-                move.CounterReset(); // two moves having the same counter
+                move.CounterReset(); // castling consists of two moves having the same counter
                 // rook's move
                 if (piece.GetCurrSquare().GetFile() == "G")
                 {
                     Movement rookMove = new Movement(GetSquare("H" + pieceRank), GetSquare("F" + pieceRank), this); 
                     MakeMove(rookMove);
                 }
-                if (piece.GetCurrSquare().GetFile() == "C")
+                else if (piece.GetCurrSquare().GetFile() == "C")
                 {
                     Movement rookMove = new Movement(GetSquare("A" + pieceRank), GetSquare("D" + pieceRank), this);
                     MakeMove(rookMove);
