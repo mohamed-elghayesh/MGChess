@@ -1,6 +1,6 @@
 ﻿using MGChessLib.Pieces;
 using MGChessLib.Common;
-using MGChessLib.Board;
+
 namespace MGChessLib.Squares
 {
     public class Square
@@ -17,6 +17,7 @@ namespace MGChessLib.Squares
         private readonly string squareColor; // color depends on location
 
         private bool isOccupied; // can get or set
+        private bool isHit; // is the square hit by a piece
 
         // values are added during instantiation
         public Square(string file, string rank)
@@ -25,6 +26,7 @@ namespace MGChessLib.Squares
             this.rank = rank;
             this.squareColor = ((files.IndexOf(this.file) + ranks.IndexOf(this.rank)) % 2 == 0) ? Color.Dark.ToString() : Color.Light.ToString();
             this.isOccupied = false;
+            this.isHit = false;
             this.name = this.file + this.rank;
         }
 
@@ -62,6 +64,24 @@ namespace MGChessLib.Squares
             }
             return new Square("","");
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <param name="color">attacking pieces color</param>
+        /// <returns>Whether the square is hit or not</returns>
+        /// <out>hitIndex {0: not hit, 1: hit by light pieces, 2: hit by dark pieces, 3: hit by both}</out>
+        public bool IsHit(Board.Board board, string color) 
+        {
+            List<Piece> pieces = board.GetPieces(color);
+            List<Square> hitSquares = pieces.SelectMany(p => p.GetValidMoves(board)).ToList();
+
+            if (hitSquares.Contains(this)) { isHit = true; return isHit; }
+            return isHit;
+        }
+
+        // should return attacking pieces
 
         // override the Equal and GetHashCode to be able to compare two locations to each other
         public override bool Equals(object? obj)

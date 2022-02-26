@@ -101,6 +101,37 @@ namespace MGChessLib.Board
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color">Color of the pieces to be returned</param>
+        /// <returns></returns>
+        public List<Piece> GetPieces(string color)
+        {
+            List<Square> squares = new List<Square> ();
+            foreach (List<Square> row in ChessBoard)
+            {
+                foreach (Square square in row)
+                {
+                    if (square.IsOccupied())
+                    {
+                        if (square.GetCurrPiece().GetColor() == color) { squares.Add(square); break; }
+                    }
+                }
+            }
+            List<Piece> pieces = new List<Piece>();
+            foreach (Square square in squares) { pieces.Add(square.GetCurrPiece()); }
+            return pieces;
+        }
+
+        public List<Piece> GetPieces() 
+        {
+            List<Piece> result = new List<Piece>();
+            result.AddRange(GetPieces(MGChessLib.Common.Color.Light.ToString()));
+            result.AddRange(GetPieces(MGChessLib.Common.Color.Dark.ToString()));
+            return result; 
+        }
+
         // set castling and promotions
         public Board SetMove(Movement move, Piece promotionPiece)
         {
@@ -114,30 +145,56 @@ namespace MGChessLib.Board
                 // king's move
                 MakeMove(move);
                 move.CounterReset(); // castling consists of two moves having the same counter
+                ((King)move.GetPiece()).IsFirstMove = false; // king has moved
                 // rook's move
                 if (piece.GetCurrSquare().GetFile() == "G")
                 {
-                    Movement rookMove = new Movement(GetSquare("H" + pieceRank), GetSquare("F" + pieceRank), this); 
+                    Rook hRook = ((Rook)GetSquare("H", pieceRank).GetCurrPiece());
+                    Movement rookMove = new Movement(hRook.GetCurrSquare(), GetSquare("F" + pieceRank), this);
+                    hRook.IsFirstMove = false; // hRook has moved
                     MakeMove(rookMove);
                 }
                 else if (piece.GetCurrSquare().GetFile() == "C")
                 {
-                    Movement rookMove = new Movement(GetSquare("A" + pieceRank), GetSquare("D" + pieceRank), this);
+                    Rook aRook = ((Rook) GetSquare("A", pieceRank).GetCurrPiece());
+                    Movement rookMove = new Movement(aRook.GetCurrSquare(), GetSquare("D" + pieceRank), this);
+                    aRook.IsFirstMove = false; // aRook has moved
                     MakeMove(rookMove);
                 }
                 return this;
             }
-
-            // source piece is rook: falsify rook's first move
-            if ((piece.GetType() == typeof(Rook)) && ((Rook)piece).IsFirstMove) { ((Rook)piece).IsFirstMove = false; }
-            // source piece is king: falsify king's first move
-            if ((piece.GetType() == typeof(King)) && ((King)piece).IsFirstMove) { ((King)piece).IsFirstMove = false; }
-            // source piece is pawn: falsify pawn's first move
-            if ((piece.GetType() == typeof(Pawn)) && ((Pawn)piece).IsFirstMove) { ((Pawn)piece).IsFirstMove = false; }
-
-            MakeMove(move);
-
-            return this;
+            else // a simple move
+            {
+                // if the move encompasses a king, reverse the 2 squares castle move first
+                MakeMove(move);
+                if (move.GetPiece().GetType() == typeof(King))
+                {
+                    // reset the two-move castle
+                    move.CounterReset(); 
+                    move.CounterReset();
+                    // escort the king back to original square
+                    King king = (King)move.GetPiece();
+                    Square currSq = king.GetCurrSquare();
+                    string rank = currSq.GetRank();
+                    if (currSq.GetFile() == "G") 
+                    { 
+                        Movement revKingMove = new Movement(king.GetCurrSquare(), GetSquare("E" + rank), this); 
+                        MakeMove(revKingMove); 
+                    }
+                    else if (currSq.GetFile() == "C") 
+                    { 
+                        Movement revKingMove = new Movement(king.GetCurrSquare(), GetSquare("E" + rank), this); 
+                        MakeMove(revKingMove); 
+                    }
+                }
+                // source piece is rook: falsify rook's first move
+                if ((piece.GetType() == typeof(Rook)) && ((Rook)piece).IsFirstMove) { ((Rook)piece).IsFirstMove = false; }
+                // source piece is king: falsify king's first move
+                if ((piece.GetType() == typeof(King)) && ((King)piece).IsFirstMove) { ((King)piece).IsFirstMove = false; }
+                // source piece is pawn: falsify pawn's first move
+                if ((piece.GetType() == typeof(Pawn)) && ((Pawn)piece).IsFirstMove) { ((Pawn)piece).IsFirstMove = false; }
+                return this;
+            }
         }
 
         private void MakeMove(Movement move)

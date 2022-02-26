@@ -26,7 +26,10 @@ namespace MGChessLib.Common
 
         public Square GetTargetSquare() { return targetSquare; }
         public void SetTargetSquare(Square targetSq) { targetSquare = targetSq; }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Source square piece</returns>
         public Piece GetPiece() { return sourcePiece; }
 
         // validate that source square piece moves contains the target square
@@ -68,33 +71,46 @@ namespace MGChessLib.Common
             bool kingSideCastle;
             if (target.GetFile() == "C") { kingSideCastle = false; }
             else if (target.GetFile() == "G") { kingSideCastle = true; }
-            else { message = "The king cannot castle in this square."; return false; } // cancel if target file is neither C nor G
+            else 
+            {
+                message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} moved to {targetSquare.GetName()}";
+                return false; 
+            } // cancel if target file is neither C nor G
 
             // rook's conditions
             string rank = king.GetCurrSquare().GetRank();
             Square kingRookSq = board.GetSquare("H" + rank);
             Square queenRookSq = board.GetSquare("A" + rank);
+            string attackerColor = (king.GetColor() == MGChessLib.Common.Color.Light.ToString()) ?
+                                   MGChessLib.Common.Color.Dark.ToString() : MGChessLib.Common.Color.Light.ToString();
 
             if (kingSideCastle)
             {
+                // both F and G files must be empty for king-side castling
+                if (board.GetSquare("F" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the F file."; return false; }
+                if (board.GetSquare("F" + rank).IsHit(board, attackerColor)) { message = "Cannot castle, F file is under attack"; return false; }
+                if (board.GetSquare("G" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the G file."; return false; }
+                if (board.GetSquare("G" + rank).IsHit(board, attackerColor)) { message = "Cannot castle, G file is under attack"; return false; }
+
                 if (!kingRookSq.IsOccupied()) { message = "Cannot castle, rook's square is empty!"; return false; } // cancel if rook's square is empty (needed for next condition)
                 if (kingRookSq.GetCurrPiece().GetType() != typeof(Rook)) { message = "Cannot castle, the piece on target square is not a rook!"; return false; } // cancel if the square doesn't hold a rook (needed for next condition) 
                 if (!((Rook)kingRookSq.GetCurrPiece()).IsFirstMove) { message = "Cannot castle, the rook has moved!"; return false; } // cancel if the rook has moved before
-                // both F and G files must be empty for king-side castling
-                if (board.GetSquare("F" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the F file."; return false; }
-                if (board.GetSquare("G" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the G file."; return false; }
-                // both F and G must not be hit by any of opponent's pieces
-                // cannot move the {} square.IsHit()
+                
             }
             else
             {
+                // files B, C, and D must be empty for queen-side castle
+                if (board.GetSquare("B" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the B file."; return false; }
+                if (board.GetSquare("B" + rank).IsHit(board, attackerColor)) { message = "Cannot castle, B file is under attack"; return false; }
+                if (board.GetSquare("C" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the C file."; return false; }
+                if (board.GetSquare("C" + rank).IsHit(board, attackerColor)) { message = "Cannot castle, C file is under attack"; return false; }
+                if (board.GetSquare("D" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the D file."; return false; }
+                if (board.GetSquare("D" + rank).IsHit(board, attackerColor)) { message = "Cannot castle, D file is under attack"; return false; }
+
                 if (!queenRookSq.IsOccupied()) { message = "Cannot castle, rook's square is empty!"; return false; }
                 if (queenRookSq.GetCurrPiece().GetType() != typeof(Rook)) { message = "Cannot castle, the piece on target square is not a rook!"; return false; }
                 if (!((Rook)queenRookSq.GetCurrPiece()).IsFirstMove) { message = "Cannot castle, the rook has moved!"; return false; }
-                // files B, C, and D must be empty for queen-side castle
-                if (board.GetSquare("B" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the B file."; return false; }
-                if (board.GetSquare("C" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the C file."; return false; }
-                if (board.GetSquare("D" + rank).IsOccupied()) { message = "Cannot castle, there is a piece occupying the D file."; return false; }
+                
             }
             // now every castle condition is met
             message = $"{counter}: {sourceSquare.GetName()} {sourcePiece.GetColor()} colored {sourcePiece.GetName()} castled to {targetSquare.GetName()}";
