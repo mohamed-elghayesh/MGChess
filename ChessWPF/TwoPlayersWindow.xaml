@@ -124,7 +124,7 @@
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="6" Background="DarkGoldenrod" Name="G1" MouseDown="SquareMouseClick"/>
         <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="7" Background="BurlyWood" Name="H1" MouseDown="SquareMouseClick"/>
 
-        <TextBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="6" Name="lblStatus" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <TextBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="6" Name="lblStatus" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextWrapping="Wrap"/>
         <Button Grid.Row="8" Grid.Column="6"  Grid.ColumnSpan="2" Name="btnUndo" Content="Undo" Click="btnUndoClick" Margin="10"/>
     </Grid>
 </Window>

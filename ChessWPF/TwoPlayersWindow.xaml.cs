@@ -82,7 +82,7 @@ namespace ChessWPF
             Movement move = new Movement(source, target, board);
             if (move.IsValidMove(board, out message))
             {
-                if (move.IsPromotion(move, board, out message)) // initiate promotion sequence
+                if (move.IsPromotion(board, out message)) // initiate promotion sequence
                 {
                     Pawn promotionPawn = (Pawn)move.GetPiece();
                     if (promotionPawn.GetColor() == MGChessLib.Common.Color.Light.ToString())
@@ -102,9 +102,14 @@ namespace ChessWPF
                         darkPopup.IsOpen = true;
                     }
                 }
-                else if(move.IsCastleMove(move, board, out message)) { lblStatus.Text = message; }
+                else if(move.IsCastleMove(board, out message)) { lblStatus.Text = message; }
                 board.SetMove(move, null);
                 lblStatus.Text = message;
+
+                // after moving, see if the move introduced a check
+                if (move.IsCheck(board, out message)) { lblStatus.Text += $" {move.GetPiece().GetName()} says hello :) {message}"; }
+                else { lblStatus.Text += message; }
+
                 ClearBoard();
                 BoardToGUI();
             }
@@ -180,6 +185,7 @@ namespace ChessWPF
                         (image.Name == "bishop2") ? new Bishop(color) : new Knight(color);
             }
             board.Promote(move, piece);
+            lblStatus.Text += $"{piece.GetName()}"; // Concatenates with Movement.IsPromotion() 
             DarkPopup.IsOpen = false;
             LightPopup.IsOpen = false;
             ClearBoard();

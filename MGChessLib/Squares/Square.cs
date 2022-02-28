@@ -64,7 +64,7 @@ namespace MGChessLib.Squares
             }
             return new Square("","");
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +78,7 @@ namespace MGChessLib.Squares
             List<Square> hitSquares = pieces.SelectMany(p => p.GetValidMoves(board)).ToList();
 
             if (hitSquares.Contains(this)) { isHit = true; return isHit; }
-            return isHit;
+            else { isHit = false; return isHit; }
         }
 
         // should return attacking pieces

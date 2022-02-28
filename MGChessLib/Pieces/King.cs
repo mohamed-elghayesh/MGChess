@@ -6,7 +6,7 @@ namespace MGChessLib.Pieces
     public class King : Piece
     {
         public bool IsFirstMove = true;
-        public bool IsUnderCheck = false;
+        public bool IsChecked = false;
         List<Square> validMoves = new List<Square>();
 
         public King(string color) : base(color)
@@ -20,22 +20,19 @@ namespace MGChessLib.Pieces
         public override List<Square> GetValidMoves(Board.Board board)
         {
             validMoves.Clear();
-
+            // TODO: the king's first move is accidentally fired
             Piece queen = new Queen(this.color);
             queen.SetCurrSquare(this.currSquare);
-
             validMoves.AddRange(queen.GetValidMoves(board));
             validMoves.Remove(currSquare);
-
             validMoves.RemoveAll(x => Math.Abs(x.GetRankIndex(x.GetRank()) - currSquare.GetRankIndex(currSquare.GetRank())) > 1 ||
                                       Math.Abs(x.GetFileIndex(x.GetFile()) - currSquare.GetFileIndex(currSquare.GetFile())) > 1);
             
             if (IsFirstMove) { validMoves.AddRange(GetCastleSquares(validMoves, board)); }
-            
-            return validMoves;
+            return RemoveBlockedSquares(validMoves, board);
         }
 
-        private List<Square> GetCastleSquares(List<Square> moves, Board.Board board)
+        public List<Square> GetCastleSquares(List<Square> moves, Board.Board board)
         {
             if (!Square.GetOffsetedSquare(currSquare, 2, 0, board).IsOccupied()) { moves.Add(Square.GetOffsetedSquare(currSquare, 2, 0, board)); }
             if (!Square.GetOffsetedSquare(currSquare, -2, 0, board).IsOccupied()) { moves.Add(Square.GetOffsetedSquare(currSquare, -2, 0, board)); }
@@ -44,7 +41,11 @@ namespace MGChessLib.Pieces
 
         public override List<Square> RemoveBlockedSquares(List<Square> validMoves, Board.Board board)
         {
-            throw new NotImplementedException();
+            string opponentColor = this.GetColor() == MGChessLib.Common.Color.Light.ToString() ? MGChessLib.Common.Color.Dark.ToString() :
+                                                                                                 MGChessLib.Common.Color.Light.ToString() ;
+            // if the square IsHit() the king cannot occupy it. 
+            validMoves.RemoveAll(sq => sq.IsHit(board, opponentColor));
+            return validMoves;
         }
     }
 }
